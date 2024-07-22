@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import './components/Navbar'
-import Navbar from './components/Navbar'
-import Card from './components/Card'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import './components/Navbar';
+import Navbar from './components/Navbar';
+import Card from './components/Card';
 
 function handleClick() {
   alert('ciao');
@@ -20,7 +20,24 @@ function handleSubmit(event) {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [items, setItems] = useState([1, 2, 3]);
+  const [user, setUser] = useState({ name: 'Alice', age: 30});
+  console.log(items);
+  console.log(user);
+
+  const addItems = () => {
+    const newItem = 4;
+    setItems([...items, newItem])
+    console.log(items);
+  }
+
+  const updateUserName = () => {
+    const updateUser = { ...user, name: 'Bob'};
+    setUser(updateUser);
+    console.log(user);
+  }
+
   const cities = [
     {
       id: 0,
@@ -110,6 +127,12 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button onClick={addItems}>
+          prova
+        </button>
+        <button onClick={updateUserName}>
+          update
         </button>
         <button onClick={handleClick}>
           alert
