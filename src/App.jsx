@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -6,6 +6,7 @@ import './components/Navbar';
 import Navbar from './components/Navbar';
 import Card from './components/Card';
 import CardForm from './components/CardForm';
+import Example from './components/Example';
 
 function handleClick() {
   alert('ciao');
@@ -24,6 +25,8 @@ function App() {
   const [count, setCount] = useState(0);
   const [items, setItems] = useState([1, 2, 3]);
   const [user, setUser] = useState({ name: 'Alice', age: 30});
+  const [data, setData] = useState([]);
+
   console.log(items);
   console.log(user);
 
@@ -39,6 +42,15 @@ function App() {
     console.log(user);
   }
   
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then((response) => response.json())
+    .then((data) => {
+        setData(data);
+        console.log(data);
+    })
+  }, [count]);
+
   const [cities, setCities] = useState([
     {
       id: 0,
@@ -76,6 +88,7 @@ function App() {
 
   return (
     <>
+    <Example cities={cities}></Example>
     <CardForm addCity={addCity}></CardForm>
     <div className='grid grid-cols-4 gap-10'>
       {cities.map((city) => (
@@ -119,6 +132,15 @@ function App() {
         title="Paris" 
         imgUrl="https://images.unsplash.com/photo-1522093007474-d86e9bf7ba6f?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
       </Card> */}
+    </div>
+    <div className='grid grid-cols-4 gap-10'>
+      {data.map((item) => (
+        <div className='bg-slate-400 rounded-lg p-3' key={item.id}>
+          <p className='text-red-500 mb-1'>useid: {item.userId}</p>
+          <h2 className='text-xl mb-3'>{item.title}</h2>
+          <p className='text-gray-800'>{item.body}</p>
+        </div>
+      ))}
     </div>
     <Navbar></Navbar>
       {/* <div>
