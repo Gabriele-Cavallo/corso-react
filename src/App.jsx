@@ -5,6 +5,7 @@ import './App.css';
 import './components/Navbar';
 import Navbar from './components/Navbar';
 import Card from './components/Card';
+import CardForm from './components/CardForm';
 
 function handleClick() {
   alert('ciao');
@@ -37,8 +38,8 @@ function App() {
     setUser(updateUser);
     console.log(user);
   }
-
-  const cities = [
+  
+  const [cities, setCities] = useState([
     {
       id: 0,
       name: "Tokio",
@@ -67,10 +68,15 @@ function App() {
       imgUrl:"https://images.unsplash.com/photo-1522093007474-d86e9bf7ba6f?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       isVisited: false,
     },
-  ]
+  ]);
+
+  const addCity = (city) => {
+    setCities([...cities, city])
+  }
 
   return (
     <>
+    <CardForm addCity={addCity}></CardForm>
     <div className='grid grid-cols-4 gap-10'>
       {cities.map((city) => (
         <Card
