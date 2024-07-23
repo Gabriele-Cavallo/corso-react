@@ -1,7 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
-import { ProvaContext } from '../stores/ProvaContext';
+// import { useState, useEffect, useContext } from 'react';
+// import { ProvaContext } from '../stores/ProvaContext';
+import { increment, decrement } from '../redux/counterSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
-function Example(cities) {
+function Example() {
     // const [count, setCount] = useState(0);
     
     // // Definizione dell'effetto
@@ -19,13 +21,24 @@ function Example(cities) {
         //     })
         // }, [count]);
         
-    const { count, setCount } = useContext(ProvaContext);
+    // const { count, setCount } = useContext(ProvaContext);
+    const count = useSelector((state) => state.counter.value);
+    const dispatch = useDispatch();
 
     return(
         <>
             <div>
-                <p>Conteggio: {count}</p>
-                <button onClick={() => setCount(count + 1)}>Incrementa</button>
+                <p className='mb-3'>Conteggio: {count}</p>
+                <button
+                    className='mr-3'
+                    aria-label='Increment value'
+                    onClick={() => dispatch(increment())}>Incrementa +
+                </button>
+                <button
+                    className='mr-3'
+                    aria-label='Decrement value'
+                    onClick={() => dispatch(decrement())}>Decrementa -
+                </button>
             </div>
         </>
     );

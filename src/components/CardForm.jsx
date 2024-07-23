@@ -1,8 +1,11 @@
-import { useState, useContext } from 'react';
-import { ProvaContext } from '../stores/ProvaContext';
-
+// import { useState, useContext } from 'react';
+// import { ProvaContext } from '../stores/ProvaContext';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { add } from '../redux/citiesSlice';
 
 function CardForm({addCity}) {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -31,10 +34,10 @@ function CardForm({addCity}) {
             imgUrl: '',
             isVisited: false,
         });
-        addCity(city);
+        dispatch(add(city));
     };
 
-    const { count } = useContext(ProvaContext);
+    // const { count } = useContext(ProvaContext);
 
     return(
         <>
@@ -44,7 +47,7 @@ function CardForm({addCity}) {
                     <input type="text" name="name" value={formData.name} onChange={handleInputChange}/>
                 </div>
                 <div className="flex flex-col">
-                    <label>Descrizione {count}</label>
+                    <label>Descrizione</label>
                     <textarea name="description" value={formData.description} onChange={handleInputChange}></textarea>
                 </div>
                 <div className="flex flex-col">
