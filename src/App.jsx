@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -21,11 +21,23 @@ function handleSubmit(event) {
   console.log(event);
 }
 
+function formReducer(state, action) {
+  switch(action.type){
+    case 'CHANGE_FIELD':
+      return {...state, [action.field]: action.value}
+      case 'RESET_FORM':
+        return { name:'', email: '' };
+        default:
+          return state;
+  }
+}
+
 function App() {
   const [count, setCount] = useState(0);
   const [items, setItems] = useState([1, 2, 3]);
   const [user, setUser] = useState({ name: 'Alice', age: 30});
   const [data, setData] = useState([]);
+  const [formData, dispatchFormState] = useReducer(formReducer, {name: '', email: ''})
 
   console.log(items);
   console.log(user);
@@ -41,7 +53,21 @@ function App() {
     setUser(updateUser);
     console.log(user);
   }
-  
+
+  const handleFieldChange = (field, value) => {
+    dispatchFormState({type: 'CHANGE_FIELD', field, value})
+  }  
+
+  const resetForm = (event) => {
+    event.preventDefault();
+    dispatchFormState({type: 'RESET_FORM'})
+  }
+
+  const sendForm = (event) => {
+    event.preventDefault();
+    console.log(formData);
+  }  
+
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/posts')
     .then((response) => response.json())
@@ -49,7 +75,7 @@ function App() {
         setData(data);
         console.log(data);
     })
-  }, [count]);
+  }, []);
 
   const [cities, setCities] = useState([
     {
@@ -88,6 +114,18 @@ function App() {
 
   return (
     <>
+    <form action="">
+        <div>
+          <label htmlFor="name">Nome:</label>
+          <input type="text" name="name" id="name" value={formData.name} onChange={(event) => handleFieldChange('name', event.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input type="email" name="email" id="email" value={formData.email} onChange={(event) => handleFieldChange('email', event.target.value)} />
+        </div>
+        <button onClick={resetForm}>Resetta il Form</button>
+        <button onClick={sendForm}>Invia</button>
+      </form>
     <Example cities={cities}></Example>
     <CardForm addCity={addCity}></CardForm>
     <div className='grid grid-cols-4 gap-10'>
