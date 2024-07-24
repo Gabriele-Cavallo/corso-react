@@ -1,6 +1,9 @@
 import Navbar from "../components/Navbar";
+import useCounter from "../hooks/useCounter";
 
 function Contatti() {
+    useCounter();
+
     return (
         <>
             <Navbar></Navbar>
